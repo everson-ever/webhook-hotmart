@@ -13,6 +13,11 @@ Rails.application.routes.draw do
         post '', to: 'products#store', as: :products_store
       end
       
+      scope 'webhooks' do
+        post '', to: 'webhooks#store', as: :webhooks_store
+        post ':id', to: 'webhooks#update', as: :webhooks_update
+      end
+
     end
   end
 end
