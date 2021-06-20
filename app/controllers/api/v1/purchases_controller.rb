@@ -1,5 +1,6 @@
-class Api::V1::PurchasesController < ApiController
+include WebhookManager
 
+class Api::V1::PurchasesController < ApiController
 
   def index
     begin
