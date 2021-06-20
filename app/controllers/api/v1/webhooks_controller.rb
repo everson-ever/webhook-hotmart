@@ -1,5 +1,15 @@
 class Api::V1::WebhooksController < ApiController
 
+  def index
+    begin
+      webhooks = current_user.producer.webhook_urls
+
+      return render json: webhooks
+    rescue => e
+      return render json: { status: false, message: e.message }
+    end
+  end
+
   def store
     begin
       data = {
