@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       scope 'purchases' do
         get '', to: 'purchases#index', as: :purchases
         post '', to: 'purchases#store', as: :purchases_store
+        delete ':id', to: 'purchases#destroy', as: :purchases_destroy
       end
     end
   end

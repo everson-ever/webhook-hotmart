@@ -30,6 +30,22 @@ class Api::V1::PurchasesController < ApiController
     end
   end
 
+  def destroy
+    begin
+      purchase = Purchase.find_by_id(params[:id])
+      raise "product not found" if purchase.blank?
+      raise "purchase not found" if  purchase.client_id != current_user.client.id
+
+      purchase_status_cancelled = PurchaseStatus.find_by_label("cancelled")
+      purchase.purchase_status_id = purchase_status_cancelled.id
+      purchase.save
+
+      return render json: purchase  
+    rescue => e
+      return render json: { status: false, message: e.message }
+    end
+  end
+
   private
     def purchase_params
       params.require(:purchase).permit(:product_id, :purchase_status_id, :order_date, :approved_date, :quantity)
