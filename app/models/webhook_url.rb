@@ -4,4 +4,5 @@ class WebhookUrl < ApplicationRecord
   has_and_belongs_to_many :purchase_status
 
   validates :producer_id, :url, :purchase_status, presence: true
+  validates :url, uniqueness: true
 end
