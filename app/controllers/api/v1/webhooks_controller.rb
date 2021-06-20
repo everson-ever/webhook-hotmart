@@ -15,6 +15,7 @@ class Api::V1::WebhooksController < ApiController
       data = {
         url: webhook_params[:url],
         any: webhook_params[:any],
+        purchase_status_ids: webhook_params[:purchase_status_ids],
         producer_id: current_user.producer.id
       }
 
@@ -30,7 +31,6 @@ class Api::V1::WebhooksController < ApiController
   def update
     begin
       webhook = WebhookUrl.find_by_id(params[:id])
-
       webhook.update(webhook_params)
 
       return render json: webhook
@@ -41,6 +41,6 @@ class Api::V1::WebhooksController < ApiController
 
   private 
     def webhook_params
-      params.permit(:url, :any)
+      params.permit(:url, :any, purchase_status_ids: [])
     end
 end
