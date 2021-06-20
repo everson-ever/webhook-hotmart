@@ -7,6 +7,11 @@ Rails.application.routes.draw do
       post :auth, to: 'authentication#create'
       get  '/auth' => 'authentication#fetch'
       
+      scope 'products' do
+        get '', to: 'products#index', as: :products
+        get ':id', to: 'products#show', as: :products_show
+        post '', to: 'products#store', as: :products_store
+      end
       
     end
   end
