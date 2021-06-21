@@ -36,5 +36,33 @@ module WebhookManager
       listening_status.include? purchase_status_id
     end
 
+    def generate_webhook_response(purchase)
+      data = {
+        id: purchase.id,
+        value: purchase.value,
+        quantity: purchase.quantity,
+        status: purchase.purchase_status.label,
+        order_date: purchase.order_date,
+        approved_date: purchase.approved_date,
+        product: {
+          product_id: purchase.product_id,
+          name: purchase.product.name
+        },
+        client: {
+          client_id: purchase.client_id,
+          name: purchase.client.user.name,
+          email: purchase.client.user.email
+        },
+        producer: {
+          producer_id: purchase.product.producer.id,
+          name: purchase.product.producer.user.name,
+          email: purchase.product.producer.user.email
+        }
+
+      }
+
+      data
+    end
+
   end
 end

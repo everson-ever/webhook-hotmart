@@ -24,14 +24,16 @@ class Purchase < ApplicationRecord
           next
         end
 
+        webhook_response = webhook_service.generate_webhook_response(self)
+
         if webhook[:any]
-          response = webhook_service.send_webhook(webhook[:url], self)
+          response = webhook_service.send_webhook(webhook[:url], webhook_response)
         end
       end
 
       return true
-    rescue => exception
-        return false
+    rescue => e
+      return false
     end
   end
 
