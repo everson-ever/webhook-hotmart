@@ -22,14 +22,13 @@ module WebhookManager
 
     def send_webhook(url, data)
       uri = URI.parse(url)
-  
-      header = {'Content-Type': 'text/json'}
+      header = {'Content-Type': 'application/json'}
       http = Net::HTTP.new(uri.host, uri.port)
       request = Net::HTTP::Post.new(uri.request_uri, header)
       request.body = data.to_json
   
       response = http.request(request)
-  
+
       return response
     end
 
