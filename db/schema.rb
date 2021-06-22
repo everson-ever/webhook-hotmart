@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_19_220115) do
+ActiveRecord::Schema.define(version: 2021_06_22_005511) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "balances", force: :cascade do |t|
+    t.decimal "value"
+    t.integer "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "clients", force: :cascade do |t|
     t.integer "user_id", null: false
@@ -50,6 +57,11 @@ ActiveRecord::Schema.define(version: 2021_06_19_220115) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "purchase_status_webhook_urls", id: false, force: :cascade do |t|
+    t.bigint "purchase_status_id", null: false
+    t.bigint "webhook_url_id", null: false
+  end
+
   create_table "purchases", force: :cascade do |t|
     t.integer "product_id"
     t.integer "client_id"
@@ -60,11 +72,6 @@ ActiveRecord::Schema.define(version: 2021_06_19_220115) do
     t.integer "quantity"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-  end
-
-  create_table "purchases_status_webhook_urls", id: false, force: :cascade do |t|
-    t.bigint "purchases_status_id", null: false
-    t.bigint "webhook_url_id", null: false
   end
 
   create_table "users", force: :cascade do |t|

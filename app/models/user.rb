@@ -4,10 +4,11 @@ class User < ApplicationRecord
 
   has_one :producer
   has_one :client
+  has_one :balance
 
   after_create :create_client, :create_producer
 
-  validates :name, presence: true
+  validates :name, :producer, :client, :balance, presence: true
 
   def create_client
     client = Client.new
