@@ -43,6 +43,10 @@ RSpec.configure do |config|
     end
   end
 
+  config.include Devise::TestHelpers, type: :controller
+  config.include Warden::Test::Helpers
+  config.include Rails.application.routes.url_helpers
+
   config.include FactoryBot::Syntax::Methods
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
