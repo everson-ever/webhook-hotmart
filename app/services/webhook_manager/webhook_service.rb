@@ -9,10 +9,13 @@ module WebhookManager
       webhooks = []
       webhook_urls.each do |webhook|
         purchase_status = webhook.purchase_status
+        products = webhook.products
+
         data = {
           url: webhook.url,
           any: webhook.any,
-          status: purchase_status.map { |status| status.id }
+          purchase_status_ids: purchase_status.map { |status| status.id },
+          products_ids: products.map { |product| product.id }
         }
         webhooks.push(data)
       end
@@ -34,6 +37,10 @@ module WebhookManager
 
     def listening_purchase_status(listening_status, purchase_status_id)
       listening_status.include? purchase_status_id
+    end
+
+    def listening_this_product(product_id, products_id)
+      products_id.include? product_id
     end
 
     def generate_webhook_response(purchase)

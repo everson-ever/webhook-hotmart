@@ -16,12 +16,13 @@ class Api::V1::WebhooksController < ApiController
         url: webhook_params[:url],
         any: webhook_params[:any],
         purchase_status_ids: webhook_params[:purchase_status_ids],
+        product_ids: webhook_params[:product_ids],
         producer_id: current_user.producer.id
       }
 
       webhook = WebhookUrl.new(data)
-      webhook.save
-
+      
+      return render json: webhook.errors if !webhook.save
       return render json: webhook
     rescue => e
       return render json: { status: false, message: e.message }
@@ -41,6 +42,6 @@ class Api::V1::WebhooksController < ApiController
 
   private 
     def webhook_params
-      params.permit(:url, :any, purchase_status_ids: [])
+      params.permit(:url, :any, purchase_status_ids: [], product_ids: [])
     end
 end
