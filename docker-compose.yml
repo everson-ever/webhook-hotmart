@@ -20,12 +20,13 @@ services:
     - "DB_HOST=postgres"
     - "DB_PORT=5432"
   sidekiq:
-    container_name: SIDEKIQ
+    container_name: SIDEKIQ-HOTMART-WEBHOOK
     build: .
     volumes:
       - .:/myapp
     networks: 
       - app-tunnel  
+    restart: unless-stopped
     command: bundle exec sidekiq
   postgres:
     container_name: POSTGRES-HOTMART-WEBHOOK
@@ -45,7 +46,7 @@ services:
       retries: 5
     volumes:
       - postgres_volume:/var/lib/postgresql/data
-  redis-server:
+  redis:
     container_name: REDIS-HOTMART-WEBHOOK
     image: redis:5.0-alpine
     ports:
