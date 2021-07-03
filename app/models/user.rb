@@ -6,9 +6,9 @@ class User < ApplicationRecord
   has_one :client
   has_one :balance
 
-  after_create :create_client, :create_producer
+  after_create :create_client, :create_producer, :create_balance
 
-  validates :name, :producer, :client, :balance, presence: true
+  validates :name, presence: true
 
   def create_client
     client = Client.new
@@ -20,5 +20,11 @@ class User < ApplicationRecord
     producer = Producer.new
     producer.user_id = self.id
     producer.save
+  end
+
+  def create_balance
+    balance = Balance.new
+    balance.user_id = self.id
+    balance.save
   end
 end
