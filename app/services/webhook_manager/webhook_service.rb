@@ -1,6 +1,8 @@
 module WebhookManager
   class WebhookService
-    def send_request(purchase)
+    def send_request(purchase_id)
+      purchase = Purchase.find_by(id: purchase_id)
+
       webhook_service = WebhookService.new
       webhook_urls = get_webhook_url(purchase)
 
@@ -88,6 +90,7 @@ module WebhookManager
             name: purchase.product.producer.user.name,
             email: purchase.product.producer.user.email
           }
+
         }
 
         data
