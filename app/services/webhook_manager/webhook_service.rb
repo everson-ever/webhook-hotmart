@@ -49,6 +49,7 @@ module WebhookManager
         uri = URI.parse(url)
         header = {'Content-Type': 'application/json'}
         http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = true
         request = Net::HTTP::Post.new(uri.request_uri, header)
         request.body = data.to_json
     
@@ -87,7 +88,6 @@ module WebhookManager
             name: purchase.product.producer.user.name,
             email: purchase.product.producer.user.email
           }
-
         }
 
         data
