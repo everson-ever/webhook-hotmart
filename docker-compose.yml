@@ -1,4 +1,4 @@
-version: '3'
+version: '3.6'
 
 services:
   hotmart-webhook:
@@ -27,7 +27,15 @@ services:
     networks: 
       - app-tunnel  
     restart: unless-stopped
-    command: bundle exec sidekiq
+    depends_on: 
+      - redis
+      - hotmart-webhook
+    environment:
+      - "DB_USERNAME=postgres"
+      - "DB_PASSWORD=postgres"
+      - "DB_HOST=postgres"
+      - "DB_PORT=5432"
+    entrypoint: ./entrypoints/sidekiq-entrypoint.sh
   postgres:
     container_name: POSTGRES-HOTMART-WEBHOOK
     image: postgres:alpine

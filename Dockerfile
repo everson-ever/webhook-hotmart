@@ -36,7 +36,8 @@ RUN bundle install
 
 
 COPY . $INSTALL_PATH
-RUN chmod 700 init.sh
+RUN chmod 700 entrypoints/entrypoint.sh
+RUN chmod 700 entrypoints/sidekiq-entrypoint.sh
 
 EXPOSE 3000
-ENTRYPOINT ["sh", "init.sh"]
+ENTRYPOINT ["sh", "entrypoints/entrypoint.sh"]
