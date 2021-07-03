@@ -55,3 +55,5 @@ gem 'rack-cors'
 gem 'jwt'
 gem 'bson_ext'
 gem 'json'
+gem 'sidekiq'
+gem "rubycritic", require: false

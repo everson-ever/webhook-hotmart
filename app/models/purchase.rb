@@ -16,11 +16,6 @@ class Purchase < ApplicationRecord
 
   private
     def request_webhook_sender
-      begin  
-        WebhookService.new.send_request(self)
-      rescue => e
-        return false
-      end
+      SendWebhookNotificationWorker.perform_async(self.id)
     end
-
 end

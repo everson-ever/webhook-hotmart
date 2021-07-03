@@ -1,6 +1,8 @@
 module WebhookManager
   class WebhookService
-    def send_request(purchase)
+    def send_request(purchase_id)
+      purchase = Purchase.find_by(id: purchase_id)
+
       webhook_service = WebhookService.new
       webhook_urls = get_webhook_url(purchase)
 
@@ -49,6 +51,7 @@ module WebhookManager
         uri = URI.parse(url)
         header = {'Content-Type': 'application/json'}
         http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = true
         request = Net::HTTP::Post.new(uri.request_uri, header)
         request.body = data.to_json
     
@@ -66,6 +69,12 @@ module WebhookManager
       end
 
       def generate_webhook_response(purchase)
+        client = purchase.client
+        product = purchase.product
+        producer = product.producer
+        user_client = client.user
+        user_producer = producer.user
+
         data = {
           id: purchase.id,
           value: purchase.value,
@@ -75,17 +84,17 @@ module WebhookManager
           approved_date: purchase.approved_date,
           product: {
             product_id: purchase.product_id,
-            name: purchase.product.name
+            name: product.name
           },
           client: {
             client_id: purchase.client_id,
-            name: purchase.client.user.name,
-            email: purchase.client.user.email
+            name: user_client.name,
+            email: user_client.email
           },
           producer: {
-            producer_id: purchase.product.producer.id,
-            name: purchase.product.producer.user.name,
-            email: purchase.product.producer.user.email
+            producer_id: producer.id,
+            name: user_producer.name,
+            email: user_producer.email
           }
 
         }
